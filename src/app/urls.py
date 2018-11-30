@@ -1,11 +1,12 @@
 from django.urls import path
 from django.conf.urls import url
-from .views import ItemFilterView, ItemDetailView, ItemCreateView, ItemUpdateView, ItemDeleteView
+from .views import ItemListView, ItemFilterView, ItemDetailView, ItemCreateView, ItemUpdateView, ItemDeleteView
 from . import views
 
 urlpatterns = [
     # 一覧画面
-    path('',  ItemFilterView.as_view(), name='index'),
+#    path('',  ItemFilterView.as_view(), name='index'),
+    path('',  ItemListView.as_view(), name='index'),
     # 詳細画面
     path('detail/<int:pk>/', ItemDetailView.as_view(), name='detail'),
     # 登録画面
