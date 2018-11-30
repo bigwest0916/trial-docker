@@ -1,0 +1,5 @@
+.idea/*
+login_info.txt
+src/db.sqlite3
+*.pyc
+
