@@ -15,6 +15,7 @@ from django.http import HttpResponse
 # Create your views here.
 
 
+
 # 検索一覧画面
 
 class ItemListView(LoginRequiredMixin, ListView):
