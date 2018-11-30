@@ -15,22 +15,29 @@ from django.http import HttpResponse
 # Create your views here.
 
 
-def getdept(request):
-    ses = request.session['_auth_user_id']
-    uuid = ses.translate(ses.maketrans({'-': '', }))
-    gids = User.objects.filter(uuid=uuid).values('departments__id')
-    return gids
-
 # 検索一覧画面
 
+class ItemListView(LoginRequiredMixin, ListView):
+    model = Item
+    paginate_by = 3
+    def get_queryset(self):
+        #uid = self.request.session.get_decoded().get('_auth_user_id')
+        uid = self.request.session.get('_auth_user_id')
+        user_id = uid.translate(str.maketrans({'-': ''}))
+        dept_ids = User.objects.get(pk=user_id).departments.all()
+        dept_id = []
+        for d in dept_ids:
+            dept_id.append(d.id)
+        query_set = Item.objects.filter(department__in=dept_id)
+        return query_set
+
+
 class ItemFilterView(LoginRequiredMixin, PaginationMixin, FilterView):
-#    model = Item
+
     filterset_class = ItemFilter
     # デフォルトの並び順を新しい順とする
-
     # クエリ未指定の時に全件検索を行うために以下のオプションを指定（django-filter2.0以降）
     strict = False
-
     # pure_pagination用設定
     paginate_by = 3
     object = Item
@@ -45,8 +52,23 @@ class ItemFilterView(LoginRequiredMixin, PaginationMixin, FilterView):
             if 'query' in request.session.keys():
                 for key in request.session['query'].keys():
                     request.GET[key] = request.session['query'][key]
-
         return super().get(request, **kwargs)
+
+    def get_queryset(self):
+        #uid = self.request.session.get_decoded().get('_auth_user_id')
+        uid = self.request.session.get('_auth_user_id')
+        user_id = uid.translate(str.maketrans({'-': ''}))
+        dept_ids = User.objects.get(pk=user_id).departments.all()
+        dept_id = []
+        for d in dept_ids:
+            dept_id = d.id
+        query_set = Item.objects.filter(department__in=dept_id)
+        return query_set
+
+
+
+
+
 
 
 # 詳細画面
@@ -80,3 +102,17 @@ class ItemDeleteView(LoginRequiredMixin, DeleteView):
 #    ses = request.session['_auth_user_id']
 #    uuid = ses.translate(ses.maketrans({'-': '', }))
 #    return HttpResponse(uuid)
+
+
+
+
+# from django.contrib.sessions.models import Session
+# from django.contrib.auth.models import User
+
+# session_key = '8cae76c505f15432b48c8292a7dd0e54'
+
+# session = Session.objects.get(session_key=session_key)
+# uid = session.get_decoded().get('_auth_user_id')
+# user = User.objects.get(pk=uid)
+
+# print user.username, user.get_full_name(), user.email
