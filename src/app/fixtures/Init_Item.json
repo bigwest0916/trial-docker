@@ -1,0 +1,62 @@
+[
+{
+  "model": "app.item",
+  "pk": 1,
+  "fields": {
+    "department": 1,
+    "name": "\u8ca9\u58f2\u592a\u90ce",
+    "age": 11,
+    "sex": 1,
+    "memo": "",
+    "created_at": "2018-12-01T03:14:56.627Z"
+  }
+},
+{
+  "model": "app.item",
+  "pk": 2,
+  "fields": {
+    "department": 1,
+    "name": "\u8ca9\u58f2\u6b21\u90ce",
+    "age": 2,
+    "sex": 2,
+    "memo": "",
+    "created_at": "2018-12-01T03:15:55.513Z"
+  }
+},
+{
+  "model": "app.item",
+  "pk": 3,
+  "fields": {
+    "department": 2,
+    "name": "\u88fd\u9020\u592a\u90ce",
+    "age": 22,
+    "sex": 2,
+    "memo": "",
+    "created_at": "2018-12-01T03:16:13.319Z"
+  }
+},
+{
+  "model": "app.item",
+  "pk": 4,
+  "fields": {
+    "department": 2,
+    "name": "\u88fd\u9020\u6b21\u90ce",
+    "age": 12,
+    "sex": 1,
+    "memo": "",
+    "created_at": "2018-12-01T03:16:30.209Z"
+  }
+},
+{
+  "model": "app.item",
+  "pk": 5,
+  "fields": {
+    "department": 3,
+    "name": "\u4eba\u4e8b\u592a\u90ce",
+    "age": 14,
+    "sex": 1,
+    "memo": "",
+    "created_at": "2018-12-01T03:16:44.856Z"
+  }
+}
+]

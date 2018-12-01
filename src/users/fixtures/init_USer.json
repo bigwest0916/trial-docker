@@ -1,0 +1,131 @@
+[
+{
+  "model": "users.user",
+  "pk": "23d1ffa9-8c0e-474f-b13c-ffde525c0539",
+  "fields": {
+    "password": "pbkdf2_sha256$100000$lkAdYU6u5QJb$liUD9Uv6XaXHPLzlOOtUR6Vu89ltW1XsHb2aAjLvSnk=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "seizou",
+    "full_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2018-12-01T03:11:40Z",
+    "groups": [],
+    "user_permissions": [],
+    "departments": [
+      2
+    ]
+  }
+},
+{
+  "model": "users.user",
+  "pk": "47fb0011-701f-48e8-b3fa-9b304fff1ed5",
+  "fields": {
+    "password": "pbkdf2_sha256$100000$NbwK8PBiVGbv$1C0RFKTknqVP8Ay2+Tc7ISlGCTK3dLgClMQLg3olR94=",
+    "last_login": "2018-12-01T03:17:53.750Z",
+    "is_superuser": true,
+    "username": "admin",
+    "full_name": "",
+    "email": "bigwest@forest.ocn.ne.jp",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2018-12-01T02:52:06Z",
+    "groups": [],
+    "user_permissions": [],
+    "departments": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  }
+},
+{
+  "model": "users.user",
+  "pk": "617c9f75-9ee2-404b-81b7-d90741f2f0c9",
+  "fields": {
+    "password": "pbkdf2_sha256$100000$jevjP6Ssywso$2Xw3z0EYlzGu29yMVmu5FNPR3/bFbMfQ67FbrDxrksQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "jinji",
+    "full_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2018-12-01T03:12:23Z",
+    "groups": [],
+    "user_permissions": [],
+    "departments": [
+      3
+    ]
+  }
+},
+{
+  "model": "users.user",
+  "pk": "ef20c705-ba26-498d-acd8-50bd3a187de1",
+  "fields": {
+    "password": "pbkdf2_sha256$100000$9iunkf21NRwU$IXSLT5jSA+V57OqryKrcGnYm/Vewl2hqhv+rFGWGWK0=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "kouhou",
+    "full_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2018-12-01T03:12:06Z",
+    "groups": [],
+    "user_permissions": [],
+    "departments": [
+      5
+    ]
+  }
+},
+{
+  "model": "users.user",
+  "pk": "f6ce6318-acbe-423e-af18-143c6007f214",
+  "fields": {
+    "password": "pbkdf2_sha256$100000$6OmzWNe5CysU$Ve8TEmXqh5sccozYAZW8nojgQwpac1LFZs7fXNRVnYY=",
+    "last_login": "2018-12-01T03:17:37.778Z",
+    "is_superuser": false,
+    "username": "hanbai",
+    "full_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2018-12-01T03:11:21Z",
+    "groups": [],
+    "user_permissions": [
+      1,
+      2,
+      3,
+      22,
+      23,
+      24,
+      7,
+      8,
+      9,
+      4,
+      5,
+      6,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      19,
+      20,
+      21,
+      16,
+      17,
+      18
+    ],
+    "departments": [
+      1
+    ]
+  }
+}
+]
