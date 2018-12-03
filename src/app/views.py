@@ -9,7 +9,6 @@ from .models import Item
 from .filters import ItemFilter
 from .forms import ItemForm
 from users.models import User
-
 from django.http import HttpResponse
 
 # Create your views here.
@@ -33,49 +32,19 @@ class ItemListView(LoginRequiredMixin, ListView):
         return query_set
 
 
-class ItemFilterView(LoginRequiredMixin, PaginationMixin, FilterView):
-
-    filterset_class = ItemFilter
-    # デフォルトの並び順を新しい順とする
-    # クエリ未指定の時に全件検索を行うために以下のオプションを指定（django-filter2.0以降）
-    strict = False
-    # pure_pagination用設定
-    paginate_by = 3
-    object = Item
-
-    # 検索条件をセッションに保存する or 呼び出す
-    def get(self, request, **kwargs):
-
-        if request.GET:
-            request.session['query'] = request.GET
-        else:
-            request.GET = request.GET.copy()
-            if 'query' in request.session.keys():
-                for key in request.session['query'].keys():
-                    request.GET[key] = request.session['query'][key]
-        return super().get(request, **kwargs)
-
-    def get_queryset(self):
-        #uid = self.request.session.get_decoded().get('_auth_user_id')
-        uid = self.request.session.get('_auth_user_id')
-        user_id = uid.translate(str.maketrans({'-': ''}))
-        dept_ids = User.objects.get(pk=user_id).departments.all()
-        dept_id = []
-        for d in dept_ids:
-            dept_id = d.id
-        query_set = Item.objects.filter(department__in=dept_id)
-        return query_set
-
-
-
-
-
 
 
 # 詳細画面
 class ItemDetailView(LoginRequiredMixin, DetailView):
     model = Item
+    def get_queryset(self):
 
+
+        uid = self.request.session.get('_auth_user_id')
+        user_id = uid.translate(str.maketrans({'-': ''}))
+        dept_ids = User.objects.get(pk=user_id).departments.all()
+        item = Item.objects.filter(id=self.kwargs['pk']).filter(department__in=dept_ids)
+        return item
 
 
 # 登録画面
@@ -117,3 +86,37 @@ class ItemDeleteView(LoginRequiredMixin, DeleteView):
 # user = User.objects.get(pk=uid)
 
 # print user.username, user.get_full_name(), user.email
+
+class ItemFilterView(LoginRequiredMixin, PaginationMixin, FilterView):
+
+    filterset_class = ItemFilter
+    # デフォルトの並び順を新しい順とする
+    # クエリ未指定の時に全件検索を行うために以下のオプションを指定（django-filter2.0以降）
+    strict = False
+    # pure_pagination用設定
+    paginate_by = 3
+    object = Item
+
+    # 検索条件をセッションに保存する or 呼び出す
+    def get(self, request, **kwargs):
+
+        if request.GET:
+            request.session['query'] = request.GET
+        else:
+            request.GET = request.GET.copy()
+            if 'query' in request.session.keys():
+                for key in request.session['query'].keys():
+                    request.GET[key] = request.session['query'][key]
+        return super().get(request, **kwargs)
+
+    def get_queryset(self):
+        #uid = self.request.session.get_decoded().get('_auth_user_id')
+        uid = self.request.session.get('_auth_user_id')
+        user_id = uid.translate(str.maketrans({'-': ''}))
+        dept_ids = User.objects.get(pk=user_id).departments.all()
+        dept_id = []
+        for d in dept_ids:
+            dept_id = d.id
+        query_set = Item.objects.filter(department__in=dept_id)
+        return query_set
+
