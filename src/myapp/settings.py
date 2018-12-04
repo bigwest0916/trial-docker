@@ -55,6 +55,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+SESSION_FILE_PATH = os.path.join(BASE_DIR, 'session_file')
+
 ROOT_URLCONF = 'myapp.urls'
 
 TEMPLATES = [
@@ -141,3 +144,9 @@ PAGINATION_SETTINGS = {
 }
 
 INTERNAL_IPS = ['172.17.0.1']
+
+SESSION_COOKIE_AGE = 300
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+SESSION_SAVE_EVERY_REQUEST = False
