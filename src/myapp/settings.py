@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',  # 追加
     'pure_pagination',  # 追加
     'app',  # 追加
+    'questionnaire', # 追加
 ]
 
 MIDDLEWARE = [
