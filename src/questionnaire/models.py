@@ -16,8 +16,15 @@ class QestionVersion(models.Model):
 		default=0
 	)
 
-	created_at = models.DateTimeField(default=timezone.now)
-	updated_at = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(
+		default=timezone.now,
+		verbose_name = '作成日',
+	)
+	updated_at = models.DateTimeField(
+		auto_now=True,
+		verbose_name =  '更新日',
+
+	)
 	updated_by = models.TextField()
 
 
@@ -120,7 +127,7 @@ class Qestion(models.Model):
 	updated_by = models.TextField()
 
 
-class Answer(models.Model)
+class Answer(models.Model):
 
 	#qestion
 	qestion = models.ForeignKey(
@@ -128,10 +135,12 @@ class Answer(models.Model)
 		on_delete=models.CASCADE,
 	)
 
-	#回答
+	#回答(テキストベース)
 	content = models.TextField(
 		verbose_name='回答'
 	)
+	#回答(ファイルベース)
+
 
 	created_at = models.DateTimeField(default=timezone.now)
 	updated_at = models.DateTimeField(auto_now=True)
