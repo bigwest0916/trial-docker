@@ -1,9 +1,8 @@
 import pytest
-from vex.factories import VexVulnerabilityFactory
-from django.contrib.auth.models import User
+from .factories import DepartmentFactory ,UserFactory
 import random
-from systems.factories import DiagnosisFactory # 鈴木さん
 from django.urls import reverse # 鈴木さん
+
 
 # export DJANGO_SETTINGS_MODULE=karl.settings.local_test; pytest -v
 # -v　は詳細に出すオプション
@@ -11,10 +10,17 @@ from django.urls import reverse # 鈴木さん
 
 # TODO
 # ログインする際のUser/Pass定義
-USERNAME = 'admin'
+USERNAME = "admin"
 PASSWORD = "NTTCom0033"
 
 severity = ('high', 'medium', 'low')
+
+
+def ログイン(self):
+	url = reverse('/')
+	response=self.client
+
+
 
 @pytest.fixture
 def setup_data(db):
