@@ -1,0 +1,60 @@
+<html>
+{% load questionnaire_extra%}
+<body>
+<form action="" method="post">
+    <p><label>ヒアリングシートVersion</label><br>
+        <select name="version">
+            {% for v in version %}
+            <option value="{{v.id}}">{{v.created_at}}</option>
+            {% endfor %}
+        </select>
+    <input type="submit" value="送信">
+</form>
+
+
+<p><label>ヒアリングシート質問項目</label><br>
+<form action="" mesthod="post">
+    {% for q in question %}
+    <p><label>質問番号{{q.id}}:質問内容{{q.question}}
+        <!-- 回答のform がテキストの場合-->
+        {% if q.form_type == 1 %}
+        <input type="text" name="{{q.id}}" size="100"></label>
+        {% endif %}
+
+        <!-- 回答のform がcheckboxの場合 -->
+        {% if q.form_type == 2 %}
+            {%for av in q.answer_values_as_list %}
+               <input type="checkbox" name="{{q.id}}" value="{{av}}">{{av}}</label>
+            {% endfor %}
+        {% endif%}
+
+        <!-- 回答のform がradioの場合 -->
+        {% if q.form_type == 3 %}
+            {%for av in q.answer_values_as_list %}
+               <input type="radio" name="{{q.id}}" value="{{av}}">{{av}}</label>
+            {% endfor %}
+        {% endif%}
+
+        <!-- 回答のform がselectの場合 -->
+        {% if q.form_type == 5 %}
+            <select name="{{q.id}}">
+            {%for av in q.answer_values_as_list %}
+                <option value="{{av}}">{{av}}</option>
+            {% endfor %}
+            </select>
+        {% endif%}
+
+
+
+    {% endfor %}
+</form>
+<script type="text/javascript">
+
+</script>
+  {% block js %}
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  {% endblock %}
+
+</body>
+</html>

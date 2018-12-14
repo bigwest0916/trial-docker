@@ -1,0 +1,67 @@
+<html>
+{% load questionnaire_extra%}
+<body>
+para:{{para}}
+<form action="" method="GET">
+    <p><label>ヒアリングシートVersion</label><br>
+        <select name="version">
+            {% for v in version_kind %}
+            <option value="{{v.id}}">{{v.created_at}}</option>
+            {% endfor %}
+        </select>
+    <input type="submit" value="送信">
+</form>
+
+{% if categories %}
+<p><label>ヒアリングシート質問項目</label><br>
+<form action="" mesthod="post">
+    {% for category in categories %}
+    <p>
+    <fieldset>
+        {{ category.category_name}}:<br>
+        {{ category.category_desc}}
+        {% for q in category.question_set.all %}
+
+
+        <p><label>★質問{{q.id}}
+        {% if q.required_flg == 1 %}
+        <font color="red">必須</font>{% endif %}
+        <br><p>質問内容{{q.question}}<br>
+
+            <!-- 回答のform がテキストの場合-->
+            {% if q.form_type == 1 %}
+            <input type="text" name="{{q.id}}" size="100"></label>
+            {% endif %}
+
+            <!-- 回答のform がcheckboxの場合 -->
+            {% if q.form_type == 2 %}
+                {%for av in q.answer_values_as_list %}
+                   <input type="checkbox" name="{{q.id}}" value="{{av}}">{{av}}</label>
+                {% endfor %}
+            {% endif%}
+
+            <!-- 回答のform がradioの場合 -->
+            {% if q.form_type == 3 %}
+                {%for av in q.answer_values_as_list %}
+                   <input type="radio" name="{{q.id}}" value="{{av}}">{{av}}</label>
+                {% endfor %}
+            {% endif%}
+
+            <!-- 回答のform がselectの場合 -->
+            {% if q.form_type == 5 %}
+                <select name="{{q.id}}">
+                {%for av in q.answer_values_as_list %}
+                    <option value="{{av}}">{{av}}</option>
+                {% endfor %}
+                </select>
+            {% endif%}
+        {% endfor %}
+        </fieldset>
+    {% endfor %}
+
+
+
+</form>
+{% endif %}
+</body>
+</html>

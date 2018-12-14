@@ -4,3 +4,4 @@ src/db.sqlite3
 *.pyc
 
 /src/session_file/
+/src/questionnaire/needs.txt

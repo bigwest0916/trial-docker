@@ -1,0 +1,56 @@
+<html>
+{% load questionnaire_extra%}
+<body>
+<p><label>ヒアリングシート{{max_hs_version}}質問項目</label><br>
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="version" value="{{max_hs_version}}">
+    <input type="hidden" name="diagnosis_id" value="{{diagnosis_id}}">
+
+    {% for category in categories %}
+    <p>
+    <fieldset>
+        {{ category.category_name}}:<br>
+        {{ category.category_desc}}
+        {% for q in category.question_set.all %}
+
+
+        <p><label>★質問{{q.id}}
+        {% if q.required_flg == 1 %}
+        <font color="red">必須</font>{% endif %}
+        <br><p>質問内容{{q.question}}<br>
+
+            <!-- 回答のform がテキストの場合-->
+            {% if q.form_type == 1 %}
+            <input type="text" name="{{q.id}}" size="100"></label>
+            {% endif %}
+
+            <!-- 回答のform がcheckboxの場合 -->
+            {% if q.form_type == 2 %}
+                {%for av in q.answer_values_as_list %}
+                   <input type="checkbox" name="{{q.id}}" value="{{av}}">{{av}}</label>
+                {% endfor %}
+            {% endif%}
+
+            <!-- 回答のform がradioの場合 -->
+            {% if q.form_type == 3 %}
+                {%for av in q.answer_values_as_list %}
+                   <input type="radio" name="{{q.id}}" value="{{av}}">{{av}}</label>
+                {% endfor %}
+            {% endif%}
+
+            <!-- 回答のform がselectの場合 -->
+            {% if q.form_type == 5 %}
+                <select name="{{q.id}}">
+                {%for av in q.answer_values_as_list %}
+                    <option value="{{av}}">{{av}}</option>
+                {% endfor %}
+            {% endif %}
+                </select>
+        {% endfor %}
+        </fieldset>
+    {% endfor %}
+    <input type="submit" value="登録">
+</form>
+</body>
+</html>

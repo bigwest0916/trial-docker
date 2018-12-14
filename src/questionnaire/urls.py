@@ -4,6 +4,8 @@ from . import views
 
 urlpatterns = [
     # 一覧画面
-    path('', views.QestionVersionList.as_view(), name='index'),
-    path('', views.QestionList.as_view(), name='index'),
+    path('', views.index, name='index'),
+    path('diag/', views.diag, name='diag'),
+    path('hs/<int:diagnosis_id>/', views.hs, name='hs'),
+
 ]
