@@ -45,23 +45,34 @@ def create(request, diagnosis_id):
 	else:
 		version=request.POST.get("version")
 		diagnosis_id = request.POST.get("diagnosis_id")
-
 		for key in request.POST:
-
 			if key != 'csrfmiddlewaretoken' and key != 'diagnosis_id' and key != 'version':
-				'''
-				Question.objects.update_or_create(
-					questionversionmaster=version,
-					diagnosismaster=request.POST["diagnosis_id"],
-					#questionmaster=request.POST[str(key)],
-					questionmaster=key,
-					categorymaster=QuestionMaster.objects.filter(pk=key).categorymaster.id,
-				)
-				'''
-				context={
-					"categorymaster":"categorymaster:"+QuestionMaster.objects.filter(pk=key).categorymaster.id,
-				}
 
-				return HttpResponse(context)
+				vm = QuestionVersionMaster.objects.get(pk=version)
+				dm = DiagnosisMaster.objects.get(pk=request.POST["diagnosis_id"])
+				cm = QuestionMaster.objects.get(pk=key).categorymaster
+				qm = QuestionMaster.objects.get(pk=key)
+
+				q= Question.objects.update_or_create(
+					questionversionmaster=vm,
+					diagnosismaster=dm,
+					categorymaster=cm,
+					questionmaster=qm,
+					#categorymaster=QuestionMaster.objects.get(pk=key).categorymaster.id,
+				)
+
+		return HttpResponse(q)
+
+'''
+				a = Answer.objects.update_or_create(
+					question = q,
+				)
+
+				context={
+					"key":key,
+					"categorymaster":"categorymaster:"+str(QuestionMaster.objects.get(pk=str(key)).categorymaster.id),
+
+				}
+'''
 
 
