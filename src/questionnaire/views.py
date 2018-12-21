@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def index(request):
-	template = loader.get_template('index.html')
+	template = loader.get_template('hsindex.html')
 	version_kind = QuestionVersion.objects.all()
 	para=request.GET.get('version')
 
@@ -53,7 +53,7 @@ def hs(request, diagnosis_id):
 
 		# 初めてヒアリングシート登録する場合
 		if answers.count() == 0:
-			template = loader.get_template('hs.html')
+			template = loader.get_template('hs_list.html')
 			max_hs_version = QuestionVersion.objects.all().aggregate(Max('id'))
 			categories = Category.objects.filter(questionversion__id=max_hs_version["id__max"])
 

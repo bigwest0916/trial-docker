@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'pure_pagination',  # 追加
     'app',  # 追加
     'questionnaire', # 追加
+    'django_extensions',
+    'hs',
 ]
 
 MIDDLEWARE = [
@@ -150,4 +152,4 @@ SESSION_COOKIE_AGE = 3000
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-SESSION_SAVE_EVERY_REQUEST = False
+SESSION_SAVE_EVERY_REQUEST = True

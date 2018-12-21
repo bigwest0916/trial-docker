@@ -1,7 +1,6 @@
 <html>
-{% load questionnaire_extra%}
 <body>
-<p><label>ヒアリングシート{{max_hs_version}}質問項目(hs2)</label><br>
+<p><label>hsヒアリングシート{{max_hs_version}}質問項目(hs1)</label><br>
 <form action="" method="post">
     {% csrf_token %}
     <input type="hidden" name="version" value="{{max_hs_version}}">
@@ -12,7 +11,7 @@
     <fieldset>
         {{ category.category_name}}:<br>
         {{ category.category_desc}}
-        {% for q in category.question_set.all %}
+        {% for q in category.questionmaster_set.all %}
 
 
         <p><label>★質問{{q.id}}
@@ -28,7 +27,7 @@
             <!-- 回答のform がcheckboxの場合 -->
             {% if q.form_type == 2 %}
                 {%for av in q.answer_values_as_list %}
-                   <input type="checkbox" name="{{q.id}}" value="{{av}}" {% if av == q.answer.answer  %} selected {% endif %}>{{av}}</label>
+                   <input type="checkbox" name="{{q.id}}" value="{{av}}">{{av}}</label>
                 {% endfor %}
             {% endif%}
 

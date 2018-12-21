@@ -1,7 +1,7 @@
 <html>
 {% load questionnaire_extra%}
 <body>
-<p><label>ヒアリングシート{{max_hs_version}}質問項目</label><br>
+<p><label>ヒアリングシート{{max_hs_version}}質問項目(hs1)</label><br>
 <form action="" method="post">
     {% csrf_token %}
     <input type="hidden" name="version" value="{{max_hs_version}}">
