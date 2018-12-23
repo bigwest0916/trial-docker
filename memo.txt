@@ -1,0 +1,50 @@
+'''
+######
+# 特定の診断の回答を取得
+>>> rr = RegistResult.objects.filter(diagnosismaster=1)
+>>> rr
+<QuerySet [<RegistResult: RegistResult object (5)>, <RegistResult: RegistResult object (6)>, <RegistResult: RegistResult object (7)>, <RegistResult: RegistResult object (8)>]>
+
+# 特定の診断の回答の、カテゴリのグループを取得
+>>> rr.values('categorymaster').annotate(max=Max('categorymaster'))
+<QuerySet [{'categorymaster': 3, 'sum': 3}, {'categorymaster': 4, 'sum': 4}]>
+
+>>> qs = rr.values('categorymaster').annotate(sum=Max('categorymaster'))
+>>> 
+>>> qs
+<QuerySet [{'categorymaster': 3, 'sum': 3}, {'categorymaster': 4, 'sum': 4}]>
+
+# 特定カテゴリのカテゴリIDを取得
+>>> for q in qs:
+...     print(q['categorymaster'])
+... 
+3
+4
+>>>
+
+#　特定カテゴリ配下の質問回答を取得
+>>> rr.filter(categorymaster=3)
+<QuerySet [<RegistResult: RegistResult object (5)>, <RegistResult: RegistResult object (6)>]>
+>>> rr.filter(categorymaster=3)
+<QuerySet [<RegistResult: RegistResult object (5)>, <RegistResult: RegistResult object (6)>]>
+>>> 
+
+######
+
+
+①特定診断の回答を取得
+②その回答から、カテゴリグループを取得
+③カテゴリグループごとに、質問回答をforで回す
+
+
+
+rr = RegistResult.objects.filter(diagnosismaster=1)
+grp = rr.values('categorymaster').annotate(max=Max('categorymaster'))
+
+c_ids=[]
+for g in grp:
+    c_ids.append(g['categorymaster'])
+
+categories=[]
+for c_id in c_ids:
+    categories.append({'category':CategoryMaster.objects.get(pk=c_id),'rr':rr.filter(categorymaster=c_id)})

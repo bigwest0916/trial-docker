@@ -192,6 +192,41 @@ class DiagnosisMaster(models.Model):
 	def __str__(self):
 		return self.system_id+" | "+self.system_name+" | "+str(self.diag_when)
 
+class RegistResult(models.Model):
+	#question################################
+	diagnosismaster = models.ForeignKey(
+		'DiagnosisMaster',
+		on_delete=models.CASCADE,
+	)
+
+	questionversionmaster = models.ForeignKey(
+		'QuestionVersionMaster',
+		on_delete=models.CASCADE,
+	)
+
+	diagnosismaster = models.ForeignKey(
+		'DiagnosisMaster',
+		on_delete=models.CASCADE,
+	)
+
+	categorymaster = models.ForeignKey(
+		'CategoryMaster',
+		on_delete=models.CASCADE,
+	)
+
+	questionmaster = models.ForeignKey(
+		'QuestionMaster',
+		on_delete=models.CASCADE,
+	)
+	#回答(テキストベース)################################
+	answer = models.TextField(
+		blank=True,
+		verbose_name='回答'
+	)
+
+	created_at = models.DateTimeField(default=timezone.now)
+	updated_at = models.DateTimeField(auto_now=True)
+
 
 
 class Question(models.Model):
@@ -243,5 +278,7 @@ class Answer(models.Model):
 	################################
 	created_at = models.DateTimeField(default=timezone.now)
 	updated_at = models.DateTimeField(auto_now=True)
+
+
 
 

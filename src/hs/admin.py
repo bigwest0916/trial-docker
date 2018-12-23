@@ -25,3 +25,7 @@ class AnswerAdmin(admin.ModelAdmin):
 @admin.register(DiagnosisMaster)
 class DiagnosisAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(RegistResult)
+class DiagnosisAdmin(admin.ModelAdmin):
+    pass
