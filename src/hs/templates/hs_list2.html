@@ -1,64 +1,34 @@
 <html>
 {% load hs_extra %}
 <head>
-    <style type="text/css">
-    .balloon-left {
-    position: absolute;
-    display: inline-block;
-    margin-left: 20px;
-    padding: 7px 10px;
-    min-height: 40px;
-    min-width: 120px;
-    line-height: 40px;
-    background: #5cc507;
-    box-shadow: -4px 4px 8px -1px #999999;
+<style type="text/css">
+.balloonoya {
+  position   : relative;                /* 指定した分だけ相対的に移動 */
 }
-
-.balloon-left:before{
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: -30px;
-    margin-top: -15px;
-    border: 15px solid transparent;
-    border-right: 15px solid #5cc507;
+.balloonoya:hover .balloon {
+  display: inline;                /* インライン要素として表示 */
 }
-
-.balloon-left p {
-    margin: 0;
-    padding: 0;
+.balloon {
+  position   : absolute;                /* 親要素を基準 */
+  display: none;                        /* 要素を非表示 */
+  padding: 2px;                         /* テキストの前後の余白 */
+  background-color: rgba(102, 255, 102, 0.50);       /* 背景色（透明度） */
+  width:180px;                          /* 吹き出し全体の幅 */
+  left : 30%;                           /* 表示位置 */
+  top : 100%;                           /* 表示位置 */
+  margin-top : 12px;                    /* 表示位置 */
+  font-size: 80%;                       /* 文字サイズ */
 }
-.fadein {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+.balloon:after{
+  border-bottom: 12px solid rgba(102, 255, 102, 0.50); /* 吹き出し口の高さ・色 */
+  border-left: 10px solid transparent;    /* 吹き出し口の幅１／２ */
+  border-right: 10px solid transparent;   /* 吹き出し口の幅１／２ */
+  top: -12px;                             /* 吹き出し口の位置調整 */
+  left : 5%;                              /* 吹き出し口の横位置 */
+  content: "";                       /* コンテンツの挿入 */
+  position: absolute;                /* 親要素を基準 */
 }
-
-.fadein.visible {
-    opacity: 1;
-    visibility: visible;
-}
-    </style>
-     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <script type="text/javascript">
-            $(function() {
-              var timer;
-              $("#button").on("click", function() {
-                clearTimeout(timer);
-                $("#balloon-tips").toggleClass("invisible");
-                timer = setTimeout(function() {
-                  $("#balloon-tips").toggleClass("invisible");
-                }, 3000);
-              });
-            });
-    </script>
-
-
-
-
-
-
+</style>
 
 </head>
 <body>
@@ -76,15 +46,17 @@
         {{c.category.category_name}}<br>
         {{c.category.category_desc}}<br>
 
-        {%for q in c.qm%}<br>
+        {%for q in c.qm%}
+        <hr>
+        <bold>質問：{{q.q.id}}</bold><br>
         {% if q.q.required_flg == 1 %}
         <font color="red">必須</font>{% endif %}
-        <br><p>質問内容 : {{q.q.question_content}}<br>
+        <br><p>質問内容 : {{q.q.question_content}}
 
-    <button id="button">SHOW</button>
-    <div id="balloon-tips" class="balloon-left">
-    <p>{{q.q.balloon}}</p>
-    </div>
+        <!--吹き出し-->
+<div class="balloonoya"><font color="blue">【baloon!】</font>
+            <span class="balloon">{{q.q.balloon}}></span>
+            </div>
 
             <!-- 回答のform がテキストの場合-->
             {% if q.q.form_type == 1 %}
@@ -119,6 +91,7 @@
                 {% endfor %}
                 </select>
             {% endif %}
+
         {%endfor%}<br>
 
     </fieldset>

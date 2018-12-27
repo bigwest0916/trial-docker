@@ -17,7 +17,7 @@
         <p><label>★質問{{q.id}}
         {% if q.required_flg == 1 %}
         <font color="red">必須</font>{% endif %}
-        <br><p>質問内容{{q.question}}<br>
+        <br><p>質問内容{{q.question_content}}<br>
 
             <!-- 回答のform がテキストの場合-->
             {% if q.form_type == 1 %}
