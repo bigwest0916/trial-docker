@@ -160,6 +160,21 @@ class QuestionMaster(models.Model):
 		default=0
 	)
 
+	# 新規追加
+	# 回答内容形式チェック用正規表現
+	# https://qiita.com/dongri/items/2a0a18e253eb5bf9edba
+	# https://qiita.com/wanwanland/items/ce272419dde2f95cdabc
+	answer_regex = models.TextField(
+		blank = True,
+		verbose_name = 'チェック用正規表現',
+	)
+
+	answer_len = models.IntegerField(
+		blank = True,
+		verbose_name='入力文字数',
+
+	)
+
 	created_at = models.DateTimeField(default=timezone.now)
 	updated_at = models.DateTimeField(auto_now=True)
 
