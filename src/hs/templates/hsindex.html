@@ -4,11 +4,17 @@
 </head>
 <body>
     <table border="1">
-    <tr><th>システムID</th><th>システム名</th><th>診断月</th><th>ヒアリングシートへ</th></tr>
+    <tr><th>システムID</th><th>システム名</th><th>診断月</th><th>HS初回登録</th><th>HS登録有無</th><th>HS修正</th></tr>
     {% for d in diag %}
     <tr>
         <td>{{d.system_id}}</td><td>{{d.system_name}}</td><td>{{d.diag_when|date:"Y/N"}}</td>
-        <td><a href="/hs/create/{{ d.id }}/">リンク</a></td>
+        <td><a href="/hs/create/{{ d.id }}/">初回登録</a></td>
+        {% if d.registresult_set.count == 0%}
+            <td>無</td>
+        {% else %}
+            <td>有</td>
+        {% endif %}
+        <td><a href="/hs/change/{{ d.id }}/">修正</a></td>
     </tr>
     {% endfor%}
 

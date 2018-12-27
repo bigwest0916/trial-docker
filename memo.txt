@@ -1,3 +1,135 @@
+categories = CategoryMaster.objects.filter(questionversionmaster__id=2)
+cm = []
+for category in categories:
+	qms = category.questionmaster_set.filter(categorymaster=category)
+	qm = []
+	for q in qms:
+		qm.append({'q': q, 'r': q.registresult_set.get(diagnosismaster=1)},)
+	cm.append({'category': category, 'qm': qm},)
+
+for i in cm:
+    i['category']
+    i['qm']
+    for n in i['qm']:
+        n
+        n['q']
+        n['r']
+
+
+
+cm=[]
+
+>>> for category in categories:
+...   qms=category.questionmaster_set.filter(categorymaster=category)
+...   qm=[]
+...   for q in qms:
+...     qm.append({'q':q,'r':q.registresult_set.get(diagnosismaster=1)},)
+...   cm.append({'category':category,'qm':qm})
+...
+>>>
+>>> for i in cm:
+...     i['category']
+...     for q in i['qm']:
+...             q['q'].answer_values
+...             q['r'].answer
+...
+<CategoryMaster: QV２−カテゴリ１>
+''
+'aaaa'
+'日本,アメリカ,イギリス,フランス,イタリア'
+'アメリカ'
+<CategoryMaster: QV２−カテゴリ２>
+'りんご,オレンジ,パイナップル,キウィ'
+'りんご'
+'伊藤,山県,安倍,吉田'
+'伊藤'
+>>>
+
+
+
+
+
+=--------------------------------------------
+
+
+>>> categories
+[{'category': <CategoryMaster: QV２−カテゴリ１>, 'rr': <QuerySet [<RegistResult: RegistResult object (24)>, <RegistResult: RegistResult object (25)>]>}, {'category': <CategoryMaster: QV２−カテゴリ２>, 'rr': <QuerySet [<RegistResult: RegistResult object (26)>, <RegistResult: RegistResult object (27)>]>}]
+>>>
+>>>
+>>> type(categories[0])
+<class 'dict'>
+>>> categories[0]["category"]
+<CategoryMaster: QV２−カテゴリ１>
+>>> categories[0]["rr"]
+<QuerySet [<RegistResult: RegistResult object (24)>, <RegistResult: RegistResult object (25)>]>
+>>>
+
+
+
+
+-----------------------------------
+
+>>> categories = CategoryMaster.objects.filter(questionversionmaster__id=2)
+>>>
+>>>
+>>>
+>>> categories
+<QuerySet [<CategoryMaster: QV２−カテゴリ１>, <CategoryMaster: QV２−カテゴリ２>]>
+>>>
+>>>
+>>>
+>>> categories[0]
+<CategoryMaster: QV２−カテゴリ１>
+>>>
+>>>
+>>>
+>>> categories[0].questionmaster_set.all()
+<QuerySet [<QuestionMaster: QuestionMaster object (5)>, <QuestionMaster: QuestionMaster object (6)>]>
+>>>
+>>>
+>>> categories[0].questionmaster_set.all()[0].registresult_set.all()
+<QuerySet [<RegistResult: RegistResult object (18)>]>
+>>>
+>>> categories[0].questionmaster_set.all()[0].registresult_set.filter(diagnosismaster=1)
+<QuerySet [<RegistResult: RegistResult object (18)>]>
+>>>
+>>>
+>>> categories[0].questionmaster_set.all()[0].registresult_set.get(diagnosismaster=1)
+<RegistResult: RegistResult object (18)>
+>>>
+
+   {% for category in categories %}
+    <fieldset>
+        {{category.category_name}}<br>
+        {{category.category_desc}}<br>
+
+        {% for q in category.questionmaster_set.all %}
+            質問内容{{q.question_content}}
+                    {% if q.form_type == 2 %}
+                {%for av in q.answer_values_as_list %}
+                   <input type="checkbox" name="{{q.id}}" value="{{av}}"
+                          {% if av in q.answer%}
+                            checked
+                          {% endif %}
+                   >{{av}}</label>
+                {% endfor %}
+            {% endif%}
+        {% endfor %}
+
+
+category=[]
+questionmaster=[]
+registresult=[]
+
+categories = CategoryMaster.objects.filter(questionversionmaster__id=2)
+for cm in categories:
+    category.append()
+    for qm in cm.questionmaster_set.all()
+        qm
+
+
+
+
 '''
 ######
 # 特定の診断の回答を取得

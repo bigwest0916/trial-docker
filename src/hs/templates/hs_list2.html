@@ -1,59 +1,125 @@
 <html>
 {% load hs_extra %}
+<head>
+    <style type="text/css">
+    .balloon-left {
+    position: absolute;
+    display: inline-block;
+    margin-left: 20px;
+    padding: 7px 10px;
+    min-height: 40px;
+    min-width: 120px;
+    line-height: 40px;
+    background: #5cc507;
+    box-shadow: -4px 4px 8px -1px #999999;
+}
+
+.balloon-left:before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -30px;
+    margin-top: -15px;
+    border: 15px solid transparent;
+    border-right: 15px solid #5cc507;
+}
+
+.balloon-left p {
+    margin: 0;
+    padding: 0;
+}
+.fadein {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.fadein.visible {
+    opacity: 1;
+    visibility: visible;
+}
+    </style>
+     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+            $(function() {
+              var timer;
+              $("#button").on("click", function() {
+                clearTimeout(timer);
+                $("#balloon-tips").toggleClass("invisible");
+                timer = setTimeout(function() {
+                  $("#balloon-tips").toggleClass("invisible");
+                }, 3000);
+              });
+            });
+    </script>
+
+
+
+
+
+
+
+</head>
 <body>
 <p><label>hsヒアリングシート{{max_hs_version}}質問項目(hs2)</label><br>
+
+
+
 <form action="" method="post">
     {% csrf_token %}
     <input type="hidden" name="version" value="{{version}}">
     <input type="hidden" name="diagnosis_id" value="{{diagnosis_id}}">
-
-    {% for category in categories %}
+    {% for c in categories %}
     <fieldset>
-        {{category.category.category_name}}<br>
-        {{category.category.category_desc}}<br>
 
-        {% for q in category.rr %}
+        {{c.category.category_name}}<br>
+        {{c.category.category_desc}}<br>
 
-
-        <p><label>★質問{{q.questionmaster.id}}
-        {% if q.questionmasterrequired_flg == 1 %}
+        {%for q in c.qm%}<br>
+        {% if q.q.required_flg == 1 %}
         <font color="red">必須</font>{% endif %}
-        <br><p>質問内容{{q.questionmaster.question_content}}<br>
+        <br><p>質問内容 : {{q.q.question_content}}<br>
+
+    <button id="button">SHOW</button>
+    <div id="balloon-tips" class="balloon-left">
+    <p>{{q.q.balloon}}</p>
+    </div>
 
             <!-- 回答のform がテキストの場合-->
-            {% if q.questionmaster.form_type == 1 %}
-            <input type="text" name="{{q.questionmaster.id}}" size="100" value="{{q.answer}}"></label>
+            {% if q.q.form_type == 1 %}
+            <input type="text" name="{{q.r.id}}" size="100" value="{{q.r.answer}}"></label>
             {% endif %}
 
             <!-- 回答のform がcheckboxの場合 -->
-            {% if q.questionmaster.form_type == 2 %}
-                {%for av in q.questionmaster.answer_values_as_list %}
-                   <input type="checkbox" name="{{q.questionmaster.id}}" value="{{av}}"
-                          {% if av in q.answer%}
+            {% if q.q.form_type == 2 %}
+                {%for av in q.q.answer_values_as_list %}
+                   <input type="checkbox" name="{{q.r.id}}" value="{{av}}"
+                          {% if av in q.r.answer%}
                             checked
                           {% endif %}
                    >{{av}}</label>
                 {% endfor %}
             {% endif%}
 
+
             <!-- 回答のform がradioの場合 -->
-            {% if q.questionmaster.form_type == 3 %}
-                {%for av in q.questionmaster.answer_values_as_list %}
-                   <input type="radio" name="{{q.questionmaster.id}}" value="{{av}}" {{ av | checked:q.answer }}>{{av}}</label>
+            {% if q.q.form_type == 3 %}
+                {%for av in q.q.answer_values_as_list %}
+                   <input type="radio" name="{{q.r.id}}" value="{{av}}" {{ av | checked:q.r.answer }}>{{av}}</label>
                 {% endfor %}
             {% endif%}
 
+
             <!-- 回答のform がselectの場合 -->
-            {% if q.questionmaster.form_type == 5 %}
-                <select name="{{q.questionmaster.id}}">
-                {%for av in q.questionmaster.answer_values_as_list %}
-                    <option value="{{av}}" {{ av | selected:q.answer }}>{{av}}</option>
+            {% if q.q.form_type == 5 %}
+                <select name="{{q.r.id}}">
+                {%for av in q.q.answer_values_as_list %}
+                    <option value="{{av}}" {{ av | selected:q.r.answer }}>{{av}}</option>
                 {% endfor %}
-            {% endif %}
                 </select>
-        {% endfor %}
-
-
+            {% endif %}
+        {%endfor%}<br>
 
     </fieldset>
     {% endfor %}

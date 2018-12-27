@@ -4,6 +4,7 @@ from hs.models import QuestionVersionMaster,CategoryMaster,QuestionMaster,Diagno
 from django.template import loader
 from django.db.models import Max
 from django.shortcuts import redirect
+from django.core.exceptions import ObjectDoesNotExist
 
 
 
@@ -17,15 +18,15 @@ def index(request):
 	return HttpResponse(template.render(context, request))
 
 
-def create(request, diagnosis_id):
 
+def create(request, diagnosis_id):
 	#質問の表示
 	if request.method == 'GET':
 		q = RegistResult.objects.filter(diagnosismaster_id=diagnosis_id)
+		template = loader.get_template('hs_list.html')
 
 		#初めて回答する場合
 		if q.count()==0:
-			template = loader.get_template('hs_list.html')
 			max_version = QuestionVersionMaster.objects.all().aggregate(Max('id'))
 			categories = CategoryMaster.objects.filter(questionversionmaster__id=max_version["id__max"])
 
@@ -35,41 +36,9 @@ def create(request, diagnosis_id):
 				'categories':categories
 			}
 
+			return HttpResponse(template.render(context, request))
 
-
-
-
-		# ２回め以降回答する場合
-		else:
-
-			template = loader.get_template('hs_list2.html')
-
-			# 特定診断の回答群を取得
-			rr = RegistResult.objects.filter(diagnosismaster=diagnosis_id)
-			grp = rr.values('categorymaster').annotate(max=Max('categorymaster'))
-			version = rr[0].questionversionmaster.id
-
-			c_ids = []
-			for g in grp:
-				c_ids.append(g['categorymaster'])
-
-			categories = []
-			for c_id in c_ids:
-				categories.append(
-					{'category': CategoryMaster.objects.get(pk=c_id), 'rr': rr.filter(categorymaster=c_id)})
-
-			context = {
-				'version':version,
-				'diagnosis_id':diagnosis_id,
-				'categories':categories,
-			}
-
-
-		return HttpResponse(template.render(context, request))
-
-
-
-	# ヒアリングシート登録処理
+	# ヒアリングシート初回登録処理
 	else:
 		template = loader.get_template('finish.html')
 
@@ -89,16 +58,10 @@ def create(request, diagnosis_id):
 						messsage='必須入力がありません'
 						return render(request, 'finish.html',message)
 
-
-
-
 				if qm.form_type == 2:
 					answer_value=','.join(request.POST.getlist(key))
 				else:
 					answer_value=request.POST[key]
-
-
-
 
 
 				r= RegistResult.objects.update_or_create(
@@ -119,4 +82,57 @@ def create(request, diagnosis_id):
 		return render(request,'finish.html')
 
 
+def change(request, diagnosis_id):
+	if request.method == 'GET':
+		q = RegistResult.objects.filter(diagnosismaster_id=diagnosis_id)
+		version = q[0].questionversionmaster_id
+		template = loader.get_template('hs_list2.html')
+
+		# 二回目以降回答する場合
+		if q.count() != 0:
+
+			# 特定診断の回答群を取得
+			categories = CategoryMaster.objects.filter(questionversionmaster__id=version)
+			cm = []
+			for category in categories:
+				qms = category.questionmaster_set.filter(categorymaster=category)
+				qm = []
+				for q in qms:
+					try:
+						qm.append({'q': q, 'r': q.registresult_set.get(diagnosismaster=diagnosis_id)}, )
+					except ObjectDoesNotExist:
+						qm.append({'q': q, 'r': ''}, )
+				cm.append({'category': category, 'qm': qm}, )
+
+
+
+
+			context = {
+				'version':version,
+				'diagnosis_id':diagnosis_id,
+				'categories':cm,
+			}
+
+			return HttpResponse(template.render(context, request))
+
+		else:
+			return HttpResponse("エラー")
+
+	else:
+		template = loader.get_template('finish.html')
+		version=request.POST.get("version")
+		diagnosis_id = request.POST.get("diagnosis_id")
+
+		for key in request.POST:
+			if not key in ('csrfmiddlewaretoken', 'version', 'diagnosis_id'):
+				answer_value=','.join(request.POST.getlist(key))
+
+				if RegistResult.objects.get(id=34).questionmaster.required_flg==1 and answer_value == '':
+					return HttpResponse("必須エラー")
+				else:
+					RegistResult.objects.filter(pk=key).update(answer=answer_value)
+			else:
+				pass
+
+		return render(request,'finish.html')
 

@@ -12,7 +12,7 @@ def checked(value,arg):
         return(rtn)
 
 @register.filter(name='selected')
-def checked(value,arg):
+def selected(value,arg):
     rtn = ''
     if value == arg:
         rtn = 'selected'
