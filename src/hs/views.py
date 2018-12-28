@@ -159,7 +159,10 @@ def change(request, diagnosis_id):
 					if not repatter.match(answer_value):
 						messages.append('文字形式チェックエラー:質問番号'+str(key))
 
-				# 回答のform_typeが1,2,3,5以外の場合
+
+
+
+				# 回答のform_typeが1,2,3,5,26以外の場合
 				else:
 					pass
 

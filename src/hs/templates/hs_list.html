@@ -46,6 +46,33 @@
                 {% endfor %}
             {% endif %}
                 </select>
+
+                <!-- 回答のform がselect_setの場合 -->
+            {% if q.form_type == 26 %}
+
+                <table border="1">
+                    <tr>
+                        {%for v in q.set_answer_values_as_list %}
+                        <th>
+                            {{v.1}}
+                        </th>
+                        {%endfor%}
+                    </tr>
+                        {%for c in q.set_answer_count_as_list %}
+                    <tr>
+                        {%for v in q.set_answer_values_as_list %}
+                        <td>
+                            <input type="text" name="{{q.id}}-{{c}}-{{v.0}}" size="50"></td>
+                        </td>
+                        {%endfor%}
+                    </tr>
+                        {%endfor%}
+                </table>
+
+            {% endif %}
+
+
+
         {% endfor %}
         </fieldset>
     {% endfor %}
