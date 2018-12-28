@@ -92,6 +92,29 @@
                 </select>
             {% endif %}
 
+            <!-- 回答のform がselect_setの場合 -->
+            {% if q.q.form_type == 26 %}
+
+                <table border="1">
+                    <tr>
+                        {%for v in q.q.set_answer_values_as_list %}
+                        <th>
+                            {{v.[1]}}
+                        </th>
+                        {%endfor%}
+                    </tr>
+                    <tr>
+                        {%for v in q.q.set_answer_values_as_list %}
+                        <td>
+                            <input type="text" name="{{q.r.id}}-{{v[0]}}-{{v1}}" size="50"></td>
+                        </td>
+                    </tr>
+                </table>
+
+            {% endif %}
+
+
+
         {%endfor%}<br>
 
     </fieldset>

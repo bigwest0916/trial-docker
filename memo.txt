@@ -1,3 +1,55 @@
+
+>>>name_value='{\'1\':\'id\',\'2\':\'pass\',\'3\':\'auth\'}'
+>>>name_value  #"{'1':'id','2':'pass','3':'auth'}"
+>>>type(name_value)  #<class 'str'>
+>>>import ast
+>>>ast.literal_eval(name_value)  #{'3': 'auth', '2': 'pass', '1': 'id'}
+>>>type(ast.literal_eval(name_value))  #<class 'dict'>
+>>>
+>>> sorted(ast.literal_eval(name_value).items())  #[('1', 'id'), ('2', 'pass'), ('3', 'auth')]　リストで返る
+>>>
+>>> tr=sorted(ast.literal_eval(name_value).items())
+>>> tr
+[('1', 'id'), ('2', 'pass'), ('3', 'auth')]
+>>> tr[0]
+('1', 'id')
+>>>
+>>>
+>>> tr[0][1]
+'id'
+>>>
+>>> len(tr)
+3
+>>> for t in tr:
+...     t
+...
+('1', 'id')
+('2', 'pass')
+('3', 'auth')
+>>> for t in tr:
+...     t[1]
+...
+'id'
+'pass'
+'auth'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------
+
 categories = CategoryMaster.objects.filter(questionversionmaster__id=2)
 cm = []
 for category in categories:

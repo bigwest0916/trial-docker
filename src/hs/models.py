@@ -1,6 +1,7 @@
 from users.models import User
 from django.db import models
 from django.utils import timezone
+import ast
 
 
 class QuestionVersionMaster(models.Model):
@@ -72,7 +73,7 @@ class QuestionMaster(models.Model):
 		(13, 'week'),(14, 'time'),(15, 'datetime-local'),(16, 'number'),
 		(17, 'image'),(18, 'range'),(19, 'color'),
 		(20, 'reset'),(21, 'button'),(22, 'password'),
-		(23, 'search'),(24, 'hidden'),(25, 'submit'),
+		(23, 'search'),(24, 'hidden'),(25, 'submit'),(26, 'text-set'),
 	)
 	form_type = models.IntegerField(
 		blank=True,
@@ -175,11 +176,45 @@ class QuestionMaster(models.Model):
 
 	)
 
+	# 新規追加
+	SET_ANSWER_FLG_CHOICE = (
+		(0, 'セットで回答しない'),
+		(1, 'セットで回答する'),
+	)
+
+	set_answer_flg = models.IntegerField(
+		blank=True,
+		verbose_name='セットで回答するかどうか',
+		choices=SET_ANSWER_FLG_CHOICE,
+		default=0
+	)
+
+	set_answer_values = models.TextField(
+		blank = True,
+		verbose_name = 'セットで回答する場合の項目名の種類',
+	)
+
+	set_answer_count = models.IntegerField(
+		blank = True,
+		verbose_name = 'セットで回答する場合の回答数',
+	)
+
+
+
 	created_at = models.DateTimeField(default=timezone.now)
 	updated_at = models.DateTimeField(auto_now=True)
 
 	def answer_values_as_list(self):
 		return self.answer_values.split(',')
+
+	def set_answer_values_as_list(self):
+		a_raw = self.set_answer_values
+		a_list_sorted = sorted(ast.literal_eval(a_raw).items())
+		return a_list_sorted
+
+	def set_answer_count_as_list(self):
+		countlist = list(range(self.set_answer_count))
+		return countlist
 
 
 class DiagnosisMaster(models.Model):

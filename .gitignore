@@ -5,3 +5,5 @@ src/db.sqlite3
 
 /src/session_file/
 /src/questionnaire/needs.txt
+/db.sqlite3
+/.DS_Store

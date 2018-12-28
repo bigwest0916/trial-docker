@@ -1,0 +1,46 @@
+<html>
+<head>
+
+</head>
+<body>
+表<br>
+<table border="1">
+-----
+    <tr>
+        <th>
+                A
+        </th>
+        <th>
+                A
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" name="{{q.id}}-{{t[0]}}-{{t1}}" size="50"></td>
+        </td>
+        <td>
+            <input type="text" name="{{q.id}}-{{t[0]}}-{{t1}}" size="50"></td>
+        </td>
+    </tr>
+-----
+
+</table>
+
+</body>
+</html>
+
+
+-----
+        {%for t in tr %}
+    <tr>
+        <th>
+            {{t[1]}}
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" name="{{q.id}}-{{t[0]}}-{{t1}}"></td>
+        </td>
+    </tr>
+        {% endfor%}
+-----
